@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Zugang – Trainingsportal</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="wrap">
+  <p class="eyebrow">Geschützter Bereich</p>
+  <h1>Zugangscode für das Trainingsportal</h1>
+  <p class="lead">Bitte gib den Zugangscode ein, um zum Trainingsportal zu gelangen.</p>
+
+  <div class="card">
+    <label for="pw">Passwort</label>
+    <input type="password" id="pw" placeholder="••••••••">
+    <p class="error" id="err"></p>
+    <button onclick="checkPassword()">Weiter</button>
+  </div>
+</div>
+
+<script src="auth.js"></script>
+<script>
+  document.getElementById("pw").addEventListener("keydown", e => {
+    if (e.key === "Enter") checkPassword();
+  });
+  function checkPassword() {
+    const val = document.getElementById("pw").value;
+    if (val === SITE_PASSWORD) {
+      sessionStorage.setItem("gateOpen", "yes");
+      location.href = "login.html";
+    } else {
+      document.getElementById("err").textContent = "Falsches Passwort.";
+    }
+  }
+</script>
+</body>
+</html>

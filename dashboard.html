@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dashboard – Trainingsportal</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <p class="eyebrow" style="margin:0;">Übersicht</p>
+    <a class="logout" href="#" onclick="logout(); return false;">Abmelden</a>
+  </div>
+  <h1>Dashboard Stocksport</h1>
+  <p class="lead">Wähle ein Modul aus, um zu starten.</p>
+
+  <div class="grid">
+    <a class="tile" href="01_Trainingsmodus.html">
+      <span class="num">01</span>
+      <span>
+        <div class="title">Trainingsmodus</div>
+        <div class="sub">Freies Training ohne Zeitdruck</div>
+      </span>
+      <span class="arrow">&rarr;</span>
+    </a>
+    <a class="tile" href="02_Meisterschaftsmodus.html">
+      <span class="num">02</span>
+      <span>
+        <div class="title">Meisterschaftsmodus</div>
+        <div class="sub">Wettkampfsimulation mit Ranking</div>
+      </span>
+      <span class="arrow">&rarr;</span>
+    </a>
+    <a class="tile" href="03_Training_einfach.html">
+      <span class="num">03</span>
+      <span>
+        <div class="title">Training – Einfach</div>
+        <div class="sub">Einstieg für Anfänger</div>
+      </span>
+      <span class="arrow">&rarr;</span>
+    </a>
+    <a class="tile" href="04_Trainingsanalyse.html">
+      <span class="num">04</span>
+      <span>
+        <div class="title">Trainingsanalyse</div>
+        <div class="sub">Auswertung deiner Fortschritte</div>
+      </span>
+      <span class="arrow">&rarr;</span>
+    </a>
+    <a class="tile" href="05_Trainingsmodus_Pro.html">
+      <span class="num">05</span>
+      <span>
+        <div class="title">Trainingsmodus Pro</div>
+        <div class="sub">Fortgeschrittene Übungen</div>
+      </span>
+      <span class="arrow">&rarr;</span>
+    </a>
+  </div>
+</div>
+
+<script src="auth.js"></script>
+<script>
+  requireGate();
+  requireLogin();
+</script>
+</body>
+</html>
