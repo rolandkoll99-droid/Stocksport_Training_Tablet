@@ -891,7 +891,7 @@
             <head>
                 <meta charset="UTF-8">
                 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                <title>ESV Grein – Zuschauer</title>
+                <title>Zuschauer</title>
                 <style>
                     * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Roboto, sans-serif; }
                     body { 
@@ -1015,7 +1015,7 @@
                 <div class="spectator-container">
                     <div class="spectator-title">
                         ${getLogoSvg(60, 60)}
-                        ESV Grein · Zuschauer
+                        Zuschauer
                     </div>
                     <div class="scoreboard">
                         <div class="score-card">
@@ -1061,7 +1061,7 @@
             // Titel
             doc.setFontSize(24);
             doc.setTextColor(31, 94, 58);
-            doc.text('ESV Grein - Trainingsbericht', pageWidth / 2, y, { align: 'center' });
+            doc.text('Trainingsbericht', pageWidth / 2, y, { align: 'center' });
             y += 12;
 
             doc.setFontSize(12);
@@ -1078,7 +1078,7 @@
                 doc.setFontSize(12);
                 doc.setTextColor(150);
                 doc.text('Keine Daten vorhanden. Bitte spielen Sie mindestens einen Durchgang.', pageWidth / 2, y, { align: 'center' });
-                doc.save('ESV_Grein_Trainingsbericht.pdf');
+                doc.save('Trainingsbericht.pdf');
                 return;
             }
 
@@ -1191,10 +1191,10 @@
             // Footer
             doc.setFontSize(8);
             doc.setTextColor(150);
-            doc.text(`Erstellt mit ESV Grein Trainingssystem v2.8 · ${new Date().toLocaleString('de-DE')}`,
+            doc.text(`Erstellt mit Trainingssystem v2.8 · ${new Date().toLocaleString('de-DE')}`,
                 pageWidth / 2, pageHeight - 10, { align: 'center' });
 
-            doc.save('ESV_Grein_Trainingsbericht.pdf');
+            doc.save('Trainingsbericht.pdf');
             toast('📄 PDF wurde erstellt und heruntergeladen');
         }
 
