@@ -14,9 +14,9 @@
 
   <div class="card">
     <label for="user">Benutzername</label>
-    <input type="text" id="user" placeholder="trainer">
+    <input type="text" id="user" placeholder="trainer" autocomplete="username" autofocus>
     <label for="pass">Passwort</label>
-    <input type="password" id="pass" placeholder="••••••••">
+    <input type="password" id="pass" placeholder="••••••••" autocomplete="current-password">
     <p class="error" id="err"></p>
     <button onclick="doLogin()">Anmelden</button>
   </div>
@@ -24,7 +24,6 @@
 
 <script src="auth.js"></script>
 <script>
-  requireGate();
   document.getElementById("pass").addEventListener("keydown", e => {
     if (e.key === "Enter") doLogin();
   });
