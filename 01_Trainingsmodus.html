@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no">
-<title>Trainingsmodus – Trainingsportal</title>
+<title>Trainingsmodus – Trainingsportal ESV Grein</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 
@@ -101,6 +101,33 @@ body{
     font-size:11px;
     color:var(--accent);
     font-weight:700;
+}
+
+/* ===== UHRZEIT ANZEIGE ===== */
+.header-clock {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.85rem;
+    color: var(--text-dim);
+    background: rgba(255,255,255,0.06);
+    padding: 4px 14px 4px 12px;
+    border-radius: 30px;
+    border: 1px solid var(--line);
+    white-space: nowrap;
+}
+
+.header-clock .clock-icon {
+    font-size: 0.9rem;
+}
+.header-clock .clock-time {
+    font-weight: 600;
+    color: var(--text-main);
+    font-variant-numeric: tabular-nums;
+}
+.header-clock .clock-date {
+    font-size: 0.7rem;
+    color: var(--text-dim);
 }
 
 .header-controls{
@@ -549,6 +576,14 @@ button:active {
     .footer .footer-right {
         margin-left: 0;
     }
+    
+    .header-clock {
+        font-size: 0.7rem;
+        padding: 3px 10px 3px 8px;
+    }
+    .header-clock .clock-date {
+        display: none;
+    }
 }
 
 @media (max-width: 600px) {
@@ -577,6 +612,22 @@ button:active {
         padding: 6px 10px;
         font-size: 0.85rem;
     }
+    
+    .header-clock {
+        font-size: 0.6rem;
+        padding: 2px 8px 2px 6px;
+        gap: 4px;
+    }
+    .header-clock .clock-time {
+        font-size: 0.65rem;
+    }
+    .header-clock .clock-date {
+        display: none;
+    }
+    .header-left {
+        gap: 8px;
+        flex-wrap: wrap;
+    }
 }
 </style>
 </head>
@@ -588,7 +639,16 @@ button:active {
 </div>
 
 <div class="header">
-    <h1>Trainingsmodus</h1>
+    <div class="header-left">
+        <h1>Trainingsmodus</h1>
+
+        <!-- ===== UHRZEIT DIREKT NEBEN TRAININGSMODUS ===== -->
+        <div class="header-clock" id="moduleClockContainer">
+            <span class="clock-icon">🕐</span>
+            <span class="clock-time" id="moduleClock">--:--:--</span>
+            <span class="clock-date" id="moduleDate">📅 --</span>
+        </div>
+    </div>
 
     <div class="header-controls">
         <div class="player-selector">
@@ -641,6 +701,27 @@ button:active {
 requireGate();
 requireLogin();
 
+// ============================================================
+// UHRZEIT & DATUM FÜR MODUL
+// ============================================================
+function updateModuleClock() {
+    const now = new Date();
+    const timeStr = now.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+    const dateStr = now.toLocaleDateString('de-DE', { weekday: 'short', day: '2-digit', month: '2-digit', year: 'numeric' });
+    
+    const clockEl = document.getElementById('moduleClock');
+    const dateEl = document.getElementById('moduleDate');
+    if (clockEl) clockEl.textContent = timeStr;
+    if (dateEl) dateEl.textContent = '📅 ' + dateStr;
+}
+
+// Initial aktualisieren und dann jede Sekunde
+updateModuleClock();
+setInterval(updateModuleClock, 1000);
+
+// ============================================================
+// TRAININGSMODUS LOGIK
+// ============================================================
 const state = {
     kehren: 6,
     winsToChampion: 2,
@@ -672,7 +753,7 @@ function renderArena(arena) {
     return `
     <div class="arena">
         <div class="arena-header">
-            <div class="arena-title">Trainingmodus</div>
+            <div class="arena-title">🥌 ESV Grein – Training</div>
         </div>
 
         <div class="scoreboard">
@@ -764,11 +845,19 @@ function setPoints(team, index, value) {
         return;
     }
 
-    // Direkt setzen ohne automatische Nullen
+    // Punkte setzen. Wenn eine Mannschaft in dieser Kehre Punkte (1-N) erhält,
+    // wird die Gegner-Mannschaft automatisch mit 0 gewertet, sofern dort noch
+    // kein Wert eingetragen wurde (nur eine Mannschaft kann pro Kehre punkten).
     if (team === 'A') {
         arena.pointsA[index] = value;
+        if (arena.pointsB[index] === null) {
+            arena.pointsB[index] = 0;
+        }
     } else {
         arena.pointsB[index] = value;
+        if (arena.pointsA[index] === null) {
+            arena.pointsA[index] = 0;
+        }
     }
 
     // Nur neu rendern

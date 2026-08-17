@@ -18,6 +18,11 @@
 
 * { box-sizing: border-box; }
 
+/* Touch-Optimierung für Kiosk-Betrieb (Raspberry Pi Touch-Monitor, Tablet) */
+html { touch-action: manipulation; }
+a, button, .tile, .logout { -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
+button, input, select, textarea { font-family: inherit; }
+
 body {
   margin: 0;
   background:
@@ -175,3 +180,53 @@ button:active, .btn:active { transform: scale(0.98); }
   transition: color .15s ease, border-color .15s ease;
 }
 .logout:hover { color: var(--text); border-color: var(--line-hi); }
+
+/* Info-Banner (Standort / Datum / Uhrzeit / Wetter) auf dem Dashboard */
+.info-banner {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 20px 0 32px;
+}
+.info-item {
+  flex: 1 1 160px;
+  background: var(--bg-panel);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 12px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.info-item .label {
+  font-size: 12px;
+  color: var(--text-dim);
+}
+.info-item .value {
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+/* Toast-Benachrichtigung (Fallback für Seiten ohne eigenes Toast-Styling) */
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: 28px;
+  transform: translateX(-50%) translateY(20px);
+  background: var(--bg-panel-hi, #1a2330);
+  color: var(--text, #f2f6fa);
+  border: 1px solid var(--line-hi, #33c5ff);
+  padding: 12px 20px;
+  border-radius: 10px;
+  font-size: 14px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .2s ease, transform .2s ease;
+  z-index: 999;
+}
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+.toast.success { border-color: #4caf50; }
+.toast.error { border-color: #e05a5a; }
+.toast.info { border-color: var(--accent, #33c5ff); }

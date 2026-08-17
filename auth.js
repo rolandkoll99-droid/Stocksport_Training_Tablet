@@ -1,30 +1,34 @@
-// Einfacher, rein clientseitiger Login-Schutz. Benutzername/Passwort stehen
-// im Klartext im Quellcode und sind daher NICHT wirklich sicher - siehe
-// README.md für Details und Alternativen (z.B. echte Auth via Backend).
+// Einfacher, rein clientseitiger "Schutz". Das Passwort steht im Klartext
+// im Quellcode und ist daher NICHT sicher - siehe README.md für Details
+// und Alternativen (z.B. GitHub Pages + echte Auth via Netlify/Cloudflare).
 
-// ===== SCHALTER: Login an/aus =====
-// true  = Benutzername/Passwort werden verlangt
-// false = kein Login, jede Seite ist frei zugänglich
-const LOGIN_ENABLED = true;
+// ===== SCHALTER: Zugriffsschutz an/aus =====
+// true  = Passwort + Login sind aktiv (wie bisher)
+// false = kein Passwort, kein Login - jede Seite ist frei zugänglich
+const PROTECTION_ENABLED = false;
 
-const VALID_USER = { user: "test2026", pass: "test2026" }; // <- hier anpassen
+const SITE_PASSWORD = "training2026"; // <- hier anpassen
+const VALID_USER = { user: "trainer", pass: "coach123" }; // <- hier anpassen
 
+function isGateOpen() {
+  return sessionStorage.getItem("gateOpen") === "yes";
+}
 function isLoggedIn() {
   return sessionStorage.getItem("loggedIn") === "yes";
 }
-
-// Der frühere Zugangscode-Schritt (index.html) wurde entfernt.
-// requireGate() bleibt als leere Funktion bestehen, damit bestehende
-// Seiten, die sie noch aufrufen, nicht brechen.
-function requireGate() {}
-
+function requireGate() {
+  if (!PROTECTION_ENABLED) return;
+  if (!isGateOpen() && !location.pathname.endsWith("index.html") && location.pathname !== "/") {
+    location.href = "index.html";
+  }
+}
 function requireLogin() {
-  if (!LOGIN_ENABLED) return;
+  if (!PROTECTION_ENABLED) return;
   if (!isLoggedIn() && !location.pathname.endsWith("login.html")) {
     location.href = "login.html";
   }
 }
 function logout() {
   sessionStorage.clear();
-  location.href = LOGIN_ENABLED ? "login.html" : "dashboard.html";
+  location.href = PROTECTION_ENABLED ? "index.html" : "dashboard.html";
 }

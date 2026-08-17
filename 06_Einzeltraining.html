@@ -3,8 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no">
-    <title>Einzeltraining – BOEE</title>
+    <title>Einzeltraining – Trainingsportal ESV Grein</title>
     <style>
+        :root {
+            --bg-panel: #131b24;
+            --line: rgba(255,255,255,0.08);
+            --text-dim: #8a97a6;
+            --accent: #33c5ff;
+        }
         /* ============================================
            BASIS-STYLING
            ============================================ */
@@ -12,6 +18,8 @@
             box-sizing: border-box;
             margin: 0;
             padding: 0;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
         }
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -31,6 +39,31 @@
             box-shadow: 0 8px 30px rgba(0,0,0,0.08);
             padding: 25px;
         }
+        .topbar{
+    position: sticky;
+    top: 0;
+    z-index: 501;
+    background:var(--bg-panel);
+    border-bottom:1px solid var(--line);
+    padding:8px 14px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    flex-shrink:0;
+    font-size:13px;
+}
+        .topbar a {
+            color: var(--text-dim);
+            text-decoration: none;
+            transition: color .15s ease;
+        }
+        .topbar a:hover { color: #fff; }
+        .topbar a.logout {
+            border: 1px solid var(--line);
+            padding: 5px 12px;
+            border-radius: 8px;
+        }
+        .topbar a.logout:hover { border-color: var(--accent); }
 
         /* ===== DASHBOARD ===== */
         .dashboard { display: flex; flex-direction: column; gap: 25px; }
@@ -468,6 +501,10 @@
             </div>
             <button class="btn-primary" id="showTrainingSelection">📋 Einzeltraining</button>
         </div>
+        <div class="topbar">
+    <a href="dashboard.html">&larr; Zurück zum Dashboard</a>
+    <a class="logout" href="#" onclick="logout(); return false;">Abmelden</a>
+</div>
         <p style="color: #4a5b78; font-size: 0.9rem;">Wähle ein Trainingsprogramm. Die Situation wird als Bild angezeigt – die Regeln sind fest hinterlegt.</p>
         <div id="trainingCardGrid" class="card-grid"></div>
     </div>
@@ -572,6 +609,11 @@
     </div>
 </div>
 
+<script src="auth.js"></script>
+<script>
+    requireGate();
+    requireLogin();
+</script>
 <script>
     (function() {
         'use strict';
